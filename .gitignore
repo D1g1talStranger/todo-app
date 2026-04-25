@@ -1,0 +1,12 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE files
+.cursor/
+.vscode/
+*.swp
+*.swo
+
+# Package managers (for later)
+node_modules/
