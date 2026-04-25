@@ -23,3 +23,19 @@ RULES:
 Constraints: Use plain English. Define jargon in parentheses. Give me terminal commands one at a time. Ask me to run each before explaining the next.]
 - **AI Response Quality:** [5]
 - **What I Learned:** [Learned more about basic git commands. Still need to learn about git]
+
+
+## Date: [25.04.2026]
+- **Context:** Basic DevOps learning prompt
+- **Prompt Used:** [Role: DevOps mentor. Context: I just pushed my first repo to GitHub. 
+Objective: Explain the exact difference between git fetch, git pull, and git merge. 
+Constraints: Use a real-world analogy. Warn me about common push conflicts. Define jargon in parentheses. Output one concept at a time and wait for my confirmation.]
+- **AI Response Quality:** [5]
+- **What I Learned:** [Learned a little more about git comands like fetch, merge and rebase. Also learned safe ways to start the job on the repo both local and remote]
+
+
+## Date: [Today's Date]
+- **Context:** Environment setup
+- **Prompt Used:** [Paste here]
+- **AI Response Quality:** [1-5]
+- **What I Learned:** [Notes]
