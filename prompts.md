@@ -34,6 +34,20 @@ Constraints: Use a real-world analogy. Warn me about common push conflicts. Defi
 - **What I Learned:** [Learned a little more about git comands like fetch, merge and rebase. Also learned safe ways to start the job on the repo both local and remote]
 
 
+## Date: [27.04.2026]
+- **Context:** Merge conflict resolution practice
+- **Prompt Used:** [Role: Senior Git mentor. Context: I have a merge conflict in counter.js with two valid but different implementations. 
+Objective: Guide me to manually resolve this conflict step-by-step. 
+Constraints: 
+- Explain what <<<<<<<, =======, and >>>>>>> mean in plain English
+- Suggest 2 possible resolution strategies (keep feature branch version / merge both / create hybrid)
+- Warn me about common post-merge mistakes
+- Define jargon in parentheses
+- Output one step at a time and wait for my confirmation before proceeding
+- **AI Response Quality:** [4]
+- **What I Learned:** [Conflict markers show HEAD vs incoming changes. Learned how to solve basic merge conflicts]
+
+
 ## Date: [Today's Date]
 - **Context:** Environment setup
 - **Prompt Used:** [Paste here]
