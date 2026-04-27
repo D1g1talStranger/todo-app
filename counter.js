@@ -1,3 +1,2 @@
-// Counter module - main branch version
-const Counter = { count: 0 };
-module.exports = Counter;
+// TODO: Counter component will go here
+console.log('Counter module loaded');
