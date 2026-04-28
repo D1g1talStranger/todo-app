@@ -1,0 +1,211 @@
+/* :root variables: Centralize theme tokens (design values) so you can re-skin the app by changing them once. */
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+    "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+
+  --bg: #0b1220;
+  --surface: #0f1b2d;
+  --surface-2: #13243a;
+  --text: #e7eefc;
+  --muted: #b4c2da;
+  --border: rgba(231, 238, 252, 0.14);
+
+  --primary: #6ea8ff;
+  --primary-2: #a6c8ff;
+
+  --danger: #ff6b6b;
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  --radius: 14px;
+  --radius-sm: 10px;
+
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 20px;
+  --space-5: 28px;
+
+  --ring: 0 0 0 3px rgba(110, 168, 255, 0.35);
+  --transition: 160ms ease;
+}
+
+/* Base reset: Normalizes spacing and ensures sizing is predictable (border-box = padding/border included in width). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: radial-gradient(1200px 600px at 10% 0%, rgba(110, 168, 255, 0.14), transparent 60%),
+    radial-gradient(900px 500px at 90% 10%, rgba(166, 200, 255, 0.10), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Layout: Uses a centered column with responsive padding (mobile-first = smallest screens first). */
+header,
+main {
+  width: min(720px, 100%);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+header {
+  padding-top: clamp(22px, 6vw, 42px);
+  padding-bottom: var(--space-3);
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(24px, 5.6vw, 40px);
+  letter-spacing: -0.02em;
+}
+
+header p {
+  margin: var(--space-1) 0 0;
+  color: var(--muted);
+}
+
+/* Sections: Provide clear visual grouping with subtle borders and depth. */
+main {
+  padding-bottom: clamp(28px, 6vw, 56px);
+}
+
+section {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 45%),
+    var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+}
+
+section + section {
+  margin-top: var(--space-4);
+}
+
+h2 {
+  margin: 0 0 var(--space-3);
+  font-size: 16px;
+  font-weight: 650;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Form: Creates a simple, touch-friendly input + button row that stacks on small screens. */
+form {
+  display: grid;
+  gap: var(--space-2);
+}
+
+label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+input[type="text"]::placeholder {
+  color: rgba(180, 194, 218, 0.75);
+}
+
+button {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(110, 168, 255, 0.35);
+  background: linear-gradient(180deg, rgba(110, 168, 255, 0.22), rgba(110, 168, 255, 0.12));
+  color: var(--text);
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition),
+    background var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+
+/* Interaction states: Add subtle hover and strong focus-visible outlines for accessibility (keyboard-only focus styling). */
+button:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0px);
+}
+
+input[type="text"]:focus-visible,
+button:focus-visible {
+  box-shadow: var(--ring);
+  border-color: rgba(110, 168, 255, 0.75);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Status + list: Styles the live status line and keeps the list clean and readable. */
+#todo-status {
+  display: block;
+  min-height: 1.25em;
+  margin-bottom: var(--space-2);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+#todo-list:empty {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  color: rgba(180, 194, 218, 0.85);
+  background: rgba(19, 36, 58, 0.35);
+}
+
+#todo-list:empty::before {
+  content: "No todos yet — add your first one above.";
+}
+
+/* Larger screens: Put input and button in a row once there’s enough space. */
+@media (min-width: 560px) {
+  form {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+
+  label {
+    grid-column: 1 / -1;
+  }
+
+  button {
+    width: auto;
+    min-width: 110px;
+  }
+}

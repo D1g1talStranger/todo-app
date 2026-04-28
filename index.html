@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Todo</title>
+    <meta name="description" content="A lightweight Smart Todo app in vanilla JavaScript." />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <!-- Header: Introduces the app and provides a clear page title for orientation. -->
+    <header>
+      <h1>Smart Todo</h1>
+      <p>Plan, track, and finish tasks.</p>
+    </header>
+
+    <!-- Main: Wraps the primary page content (the central content unique to this page). -->
+    <main>
+      <!-- Section: Groups the todo-creation UI into a single, meaningful region. -->
+      <section aria-labelledby="add-todo-title">
+        <h2 id="add-todo-title">Add a todo</h2>
+
+        <!-- Form: Enables accessible submit behavior (press Enter to submit) and clear input semantics. -->
+        <form id="todo-form" autocomplete="off">
+          <label for="todo-input">What do you need to do?</label>
+          <input
+            id="todo-input"
+            name="todo"
+            type="text"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="sentences"
+            spellcheck="true"
+            placeholder="e.g., Buy milk"
+            required
+          />
+          <button type="submit">Add</button>
+        </form>
+      </section>
+
+      <!-- Section: Holds the list of todos and a live status message for screen readers. -->
+      <section aria-labelledby="todo-list-title">
+        <h2 id="todo-list-title">Your todos</h2>
+
+        <!-- Output: Announces dynamic updates (live region) without stealing focus. -->
+        <output id="todo-status" role="status" aria-live="polite"></output>
+
+        <!-- UL: The unordered list is the semantic container for multiple todo items. -->
+        <ul id="todo-list" aria-label="Todo items"></ul>
+      </section>
+    </main>
+
+    <!-- Script: Loads your vanilla JS logic (defer = run after HTML is parsed). -->
+    <script src="./counter.js" defer></script>
+  </body>
+</html>
