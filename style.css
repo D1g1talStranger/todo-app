@@ -141,6 +141,12 @@ button {
     background var(--transition), box-shadow var(--transition), filter var(--transition);
 }
 
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+  border-color: currentColor;
+}
+
 /* Interaction states: Add subtle hover and strong focus-visible outlines for accessibility (keyboard-only focus styling). */
 button:hover {
   filter: brightness(1.06);
@@ -191,6 +197,11 @@ button:focus-visible {
 
 #todo-list:empty::before {
   content: "No todos yet — add your first one above.";
+}
+
+#todo-list li:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
 }
 
 /* Larger screens: Put input and button in a row once there’s enough space. */

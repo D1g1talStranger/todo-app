@@ -43,6 +43,16 @@
       <section aria-labelledby="todo-list-title">
         <h2 id="todo-list-title">Your todos</h2>
 
+        <p id="todo-count"></p>
+
+        <div>
+          <button type="button" id="filter-all">All</button>
+          <button type="button" id="filter-active">Active</button>
+          <button type="button" id="filter-completed">Completed</button>
+          <button type="button" id="clear-completed">Clear completed</button>
+          <button type="button" id="reset-app">Reset</button>
+        </div>
+
         <!-- Output: Announces dynamic updates (live region) without stealing focus. -->
         <output id="todo-status" role="status" aria-live="polite"></output>
 
@@ -53,5 +63,6 @@
 
     <!-- Script: Loads your vanilla JS logic (defer = run after HTML is parsed). -->
     <script src="./counter.js" defer></script>
+    <script src="app.js" defer></script>
   </body>
 </html>
