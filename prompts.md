@@ -62,3 +62,18 @@ Constraints:
 Expectation: After you output `index.html`, I will test it locally. Only then will you provide `style.css`.]
 - **AI Response Quality:** [5]
 - **What I Learned:** [Learned more about RCOCE prompt framework. Constraints stop AI from adding Bootstrap and other frameworks. Asking for one file at a time prevents hallucinated JS]
+
+## Date: [07.05.2026]
+- **Context:** DOM selection & form event handling
+- **RCOCE Prompt Used:** [Role: Senior frontend engineer mentoring a junior developer.
+Context: We're building a vanilla JS Smart Todo app for modern browsers. No frameworks, no build tools, no external CDNs.
+Objective: Generate a semantic HTML5 layout and a clean CSS stylesheet using CSS variables for theming.
+Constraints: 
+- Output ONLY `index.html` first. Stop and wait for my confirmation before showing CSS.
+- Use semantic tags (header, main, section, form, ul, button).
+- Include an input field with id="todo-input", a submit button, and an empty <ul> with id="todo-list".
+- Keep CSS mobile-first, use `:root` variables for colors/fonts, and add a subtle hover/focus state for accessibility.
+- Explain every major section in 1 sentence. Define any jargon in parentheses.
+Expectation: After you output `index.html`, I will test it locally. Only then will you provide `style.css`.]
+- **AI Response Quality:** [5]
+- **What I Learned:** [Learned that the preventDefault() function stops browser form submission. .trim() removes accidental spaces. Typing manually helped me spot missing semicolons."]
