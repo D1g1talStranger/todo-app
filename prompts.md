@@ -77,3 +77,17 @@ Constraints:
 Expectation: After you output `index.html`, I will test it locally. Only then will you provide `style.css`.]
 - **AI Response Quality:** [5]
 - **What I Learned:** [Learned that the preventDefault() function stops browser form submission. .trim() removes accidental spaces. Typing manually helped me spot missing semicolons."]
+
+## Date: [11.05.2026]
+- **Context:** Dynamic DOM rendering & event delegation
+- **RCOCE Prompt Used:** [Role: Senior frontend engineer mentoring a junior developer. Context: Vanilla JS todo app with tasks stored in localStorage as [{id, text, completed}]. <ul id="todo-list"> exists in HTML.
+Objective: Guide me to render tasks dynamically and attach click handlers using event delegation.
+Constraints:
+- Output ONE concept at a time (render function → DocumentFragment → createElement/appendChild → event delegation setup).
+- Use document.createElement + textContent ONLY. Explicitly explain why innerHTML is unsafe here.
+- Explain event delegation, event.target vs event.currentTarget, and .closest() in plain English.
+- Do NOT dump full code. Ask me to type, test in browser, and reply "next".
+- Include accessibility basics: role="listitem", aria-checked for state, and keyboard-focusable elements.
+Expectation: I will implement step-by-step, validate in DevTools, and confirm before proceeding.]
+- **AI Response Quality:** [1-5]
+- **What I Learned:** [DocumentFragment batches DOM updates. Event delegation scales to 10k tasks with 1 listener. textContent blocks XSS.]
