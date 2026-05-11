@@ -65,19 +65,9 @@ const input = document.querySelector("#todo-input");
 const form = document.querySelector("#todo-form");
 const list = document.querySelector("#todo-list");
 
-list.addEventListener("change", (event) => {
-    if (!event.target.matches('input[data-action="toggle"]')) return;
-    const li = event.target.closest("li");
-    const id = Number(li.dataset.id);
-    const todo = todos.find((t) => t.id === id);
-    if (!todo) return;
-    todo.completed = event.target.checked;
-    commit();
-});
-
 function renderTodos() {
     renderFilterUI();
-    list.innerHTML = "";
+    list.textContent = "";
 
     const clearBtn = document.querySelector("#clear-completed");
     clearBtn.hidden = !todos.some((todo) => todo.completed);
@@ -88,51 +78,59 @@ function renderTodos() {
         return true;
     })
 
+    const frag = document.createDocumentFragment();
+
     visibleTodos.forEach((todo) => {
         const li = document.createElement("li");
+        li.dataset.completed = String(todo.completed);
         li.dataset.id = todo.id
+        li.setAttribute("role", "listitem");
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = todo.completed;
         checkbox.dataset.action = "toggle";
+        checkbox.setAttribute("aria-checked", String(todo.completed));
 
         const textSpan = document.createElement("span");
         textSpan.tabIndex = 0;
         textSpan.textContent = todo.text;
-
-        textSpan.addEventListener("keydown", (event) => {
-            if (event.key !== "Enter") return;
-            if (event.key === "Escape") {
-                textSpan.blur();
-                return;
-            }
-          
-            editTodo(todo);
-        });
-
-        textSpan.addEventListener("dblclick", () => {
-            editTodo(todo);
-        });
+        textSpan.dataset.action = "edit"
+        textSpan.setAttribute("role", "button")
 
         const deleteBtn = document.createElement("button");
         deleteBtn.type = "button";
         deleteBtn.textContent = "Delete";
         deleteBtn.dataset.action = "delete";
 
-        if (todo.completed) {
-            li.style.textDecoration = "line-through";
-        }
-
         li.appendChild(checkbox);
         li.appendChild(textSpan);
         li.appendChild(deleteBtn);
-        list.appendChild(li);
+        frag.appendChild(li);
     });
 
+    list.appendChild(frag);
     const completed = todos.filter((todo) => todo.completed).length;
     const total = todos.length;
     countEl.textContent = `${completed} of ${total} completed`;
+}
+
+function getTodoContext(event) {
+    const actionEl = event.target.closest("[data-action]");
+    if (!actionEl || !list.contains(actionEl)) return null;
+
+    const li = actionEl.closest("li");
+    if (!li) return null;
+
+    const id = li.dataset.id;
+    if (!id) return null;
+
+    return {
+        actionEl,
+        action: actionEl.dataset.action,
+        li,
+        id,
+    };
 }
 
 function saveTodos() {
@@ -157,21 +155,77 @@ function editTodo(todo) {
 }
 
 list.addEventListener("click", (event) => {
-    const li = event.target.closest("li");
-    if (!li) return;
-  
-    const id = Number(li.dataset.id);
-  
-    if (event.target.matches('button[data-action="delete"]')) {
-      const index = todos.findIndex((t) => t.id === id);
+    const ctx = getTodoContext(event);
+    if (!ctx) return;
+
+    if (ctx.action === "delete") {
+      const index = todos.findIndex((todo) => String(todo.id) === String(ctx.id));
       if (index === -1) return;
       todos.splice(index, 1);
       commit();
       return;
     }
+
+    if (ctx.action === "toggle") {
+        const checkbox = ctx.actionEl;
+        if (!(checkbox instanceof HTMLInputElement)) return;
+        if (checkbox.type !== "checkbox") return;
+
+        const todo = todos.find((todo) => String(todo.id) === String(ctx.id));
+        if (!todo) return;
+
+        todo.completed = checkbox.checked;
+        commit();
+        return;
+    }
 });
 
-form.addEventListener("submit", () => {
+list.addEventListener("dblclick", (event) => {
+    const editEl = event.target.closest('[data-action="edit"]');
+    if (!editEl || !list.contains(editEl)) return;
+    const li = editEl.closest("li");
+    const id = li.dataset.id;
+    if (!id) return;
+    const todo = todos.find(todo => String(todo.id) === String(id));
+    if (!todo) return;
+    editTodo(todo);
+});
+
+list.addEventListener("keydown", (event) => {
+    const editEl = event.target.closest('[data-action="edit"]');
+    if (!editEl || !list.contains(editEl)) return;
+    if (event.repeat) return;
+
+    const li = editEl.closest("li");
+    if (!li) return;
+    
+    const id = li.dataset.id;
+    if (!id) return;
+
+    const todo = todos.find((todo) => String(todo.id) === String(id));
+    if (!todo) return;
+
+    if (event.isComposing) return;
+
+    if (event.key === "Enter") {
+        event.preventDefault();
+        editTodo(todo);
+    }
+
+    if (event.key === " ") {
+        event.preventDefault();
+        editTodo(todo);
+    }
+
+    if (event.key === "Escape") {
+        event.preventDefault();
+        editEl.blur();
+    }
+});
+
+form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
     const text = input.value.trim();
     if (text === "") return;
 
@@ -181,7 +235,6 @@ form.addEventListener("submit", () => {
         completed: false,
     }
   
-    event.preventDefault();
     todos.push(todo);
     commit();
     form.reset();
@@ -190,7 +243,3 @@ form.addEventListener("submit", () => {
 
 renderTodos();
 input.focus();
-console.log(form);
-console.log(input);
-const taskText = input.value.trim() + "test";
-console.log(taskText);
