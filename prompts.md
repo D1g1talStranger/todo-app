@@ -91,3 +91,17 @@ Constraints:
 Expectation: I will implement step-by-step, validate in DevTools, and confirm before proceeding.]
 - **AI Response Quality:** [1-5]
 - **What I Learned:** [DocumentFragment batches DOM updates. Event delegation scales to 10k tasks with 1 listener. textContent blocks XSS.]
+
+## Date: [14.05.2026]
+- **Context:** State toggling, deletion, & persistence sync
+- **RCOCE Prompt Used:** [Role: Frontend engineering mentor. Context: Vanilla JS todo app. tasks array exists in memory. renderTasks() and event delegation on #todo-list are working.
+Objective: Guide me to implement toggle complete and delete functionality, sync changes to localStorage, and maintain UI consistency.
+Constraints:
+- Output ONE concept at a time (toggle logic → delete logic → state → render → save cycle → error fallback).
+- Use array .map() for toggling and .filter() for deleting. Explain immutability (why we create new arrays instead of modifying old ones).
+- Do NOT give full code. Ask me to type, test in browser, and reply "next".
+- Show how to re-render after every state change. Explain performance tradeoffs vs partial DOM updates.
+- Define jargon in parentheses. Include one validation test per step.
+Expectation: I will implement step-by-step, validate persistence & UI, and confirm before proceeding.]
+- **AI Response Quality:** [5]
+- **What I Learned:** [".map() and .filter() prevent mutation bugs. Re-rendering from state guarantees UI matches data. localStorage updates must wrap every state change."]
