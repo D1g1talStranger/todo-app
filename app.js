@@ -11,7 +11,16 @@ renderFilterUI();
 const countEl = document.querySelector("#todo-count");
 const saved = localStorage.getItem(STORAGE_KEY);
 if (saved) {
-    todos.push(...JSON.parse(saved));
+    try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+            todos.push(...parsed);
+        } else {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+    } catch {
+        localStorage.removeItem(STORAGE_KEY);
+    }
 }
 
 function renderFilterUI() {
@@ -56,8 +65,7 @@ document.querySelector("#reset-app").addEventListener("click", () => {
     filter = "all";
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(FILTER_KEY);
-    renderTodos();
-    renderFilterUI();
+    commit();
     input.focus();
 });
 
@@ -76,7 +84,7 @@ function renderTodos() {
         if (filter === "active") return !todo.completed;
         if (filter === "completed") return todo.completed;
         return true;
-    })
+    });
 
     const frag = document.createDocumentFragment();
 
@@ -134,11 +142,19 @@ function getTodoContext(event) {
 }
 
 function saveTodos() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    } catch {
+        // Quota, private mode, or disabled storage — UI still updates via renderTodos.
+    }
 }
 
 function commit() {
-    localStorage.setItem(FILTER_KEY, filter);
+    try {
+        localStorage.setItem(FILTER_KEY, filter);
+    } catch {
+        // Filter tab not persisted; todos save may still succeed.
+    }
     saveTodos();
     renderTodos();
 }
@@ -159,11 +175,13 @@ list.addEventListener("click", (event) => {
     if (!ctx) return;
 
     if (ctx.action === "delete") {
-      const index = todos.findIndex((todo) => String(todo.id) === String(ctx.id));
-      if (index === -1) return;
-      todos.splice(index, 1);
-      commit();
-      return;
+        const nextTodos = todos.filter(
+            (todo) => String(todo.id) !== String(ctx.id)
+        );
+        todos.length = 0;
+        todos.push(...nextTodos);
+        commit();
+        return;
     }
 
     if (ctx.action === "toggle") {
@@ -171,10 +189,12 @@ list.addEventListener("click", (event) => {
         if (!(checkbox instanceof HTMLInputElement)) return;
         if (checkbox.type !== "checkbox") return;
 
-        const todo = todos.find((todo) => String(todo.id) === String(ctx.id));
-        if (!todo) return;
-
-        todo.completed = checkbox.checked;
+        const nextTodos = todos.map((todo) => {
+            if (String(todo.id) !== String(ctx.id)) return todo;
+            return { ...todo, completed: checkbox.checked };
+        });
+        todos.length = 0;
+        todos.push(...nextTodos);
         commit();
         return;
     }
